@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loginpage</title>
+</head>
+<body>
+<h1> Bu yerda login qilinadi </h1>
+
+<p>
+    <form method="post">
+    {{ csrf_token }}
+    {{ login_form.as_p }}
+
+    </form>
+
+    <button> Login </button>
+
+
+</p>
+</body>
+</html>
