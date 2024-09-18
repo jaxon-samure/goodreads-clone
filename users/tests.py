@@ -1,3 +1,4 @@
+from http.client import responses
 from django.contrib.auth import get_user
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -112,6 +113,31 @@ class LoginTestCase(TestCase):
         user = get_user(self.client)
 
         self.assertFalse(user.is_authenticated)
+
+
+class ProfileTestCase(TestCase):
+    def test_login_required(self):
+        response = self.client.get(reverse("users:profile"))
+
+        self.assertEqual(response.url, reverse("users:login") + "?next=/users/Profile/")
+        self.assertEqual(response.status_code, 302)
+
+
+    def test_profile_details(self):
+        user = User.objects.create_user(username="joxa", first_name="Jaxon", last_name="Khudoyberdiyev", email="xudoyberdiyev8@gmail.com")
+        user.set_password("<PASSWORD>")
+        user.save()
+
+        self.client.login(username="joxa", password="<PASSWORD>")
+        response = self.client.get(reverse("users:profile"))
+
+        self.assertContains(response, user.username)
+        self.assertContains(response, user.first_name)
+        self.assertContains(response, user.last_name)
+        self.assertContains(response, user.email)
+
+        self.assertEqual(response.status_code, 200)
+
 
 
 
