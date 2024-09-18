@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth import  login
+from django.contrib.auth import login, logout
 from users.forms import UserCreateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -28,7 +28,6 @@ class RegisterView(View):
 
 class LoginView(View):
     def get(self, request):
-
         login_form = AuthenticationForm()
 
         return render(request, 'users/Login.html', {"login_form": login_form})
@@ -39,7 +38,7 @@ class LoginView(View):
         if login_form.is_valid():
             user = login_form.get_user()
             login(request, user)
-            redirect("landing_page")
+            return redirect("books:list")
 
         else:
             return render(request, 'users/Login.html', {"login_form": login_form})
@@ -49,5 +48,10 @@ class ProfileView(LoginRequiredMixin, View):
         return render(request, 'users/profile.html', {'user': request.user})
 
 
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('landing_page')
 
 

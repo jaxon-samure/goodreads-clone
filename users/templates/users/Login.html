@@ -2,21 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Loginpage</title>
+    <title>Login Page</title>
 </head>
 <body>
-<h1> Bu yerda login qilinadi </h1>
+<h1>Bu yerda login qilinadi</h1>
 
-<p>
-    <form method="post">
-    {{ csrf_token }}
-    {{ login_form.as_p }}
+<form method="post">
+    {% csrf_token %}
+    {{ login_form | crispy }}}
+    <button type="submit">Login</button>
+</form>
 
-    </form>
-
-    <button> Login </button>
-
-
-</p>
 </body>
 </html>
